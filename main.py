@@ -1,7 +1,7 @@
-import sys
 import re
 import requests
 import os
+import argparse
 from deepmultilingualpunctuation import PunctuationModel
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
@@ -55,18 +55,25 @@ def get_unique_file_path(file_path):
 
 def main():
     # Process CLI arguments
-    if len(sys.argv) <= 1:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--video")
+    parser.add_argument("-r", "--raw", action='store_true')
+    args = parser.parse_args()
+    if not args.video or args.video == True:
         print("No YouTube video id provided. Please provide one.")
         return
-    video_id = sys.argv[1]
-    has_raw_output = len(sys.argv) > 2 and sys.argv[2] == "--raw"
+    if (len(args.video) != 11):
+        print(f"Illegal YouTube video id '{args.video}'. Has to be exactly 11 characters. ")
+        return
 
     # Get transcript
+    video_id = args.video
     raw_transcript = get_transcript(video_id)
     punctuated_transcript = add_punctuation(raw_transcript)
     formatted_transcript = format_sentences(punctuated_transcript)
 
     # Print to console if raw
+    has_raw_output = args.raw
     if (has_raw_output):
         print(formatted_transcript)
         return
