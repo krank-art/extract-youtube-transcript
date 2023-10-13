@@ -3,27 +3,13 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 import sys
 import re
-import http.client
-import socket
-
-def get_ipv4_from_hostname(hostname):
-    address_info = socket.getaddrinfo(hostname, 80, proto=socket.IPPROTO_TCP)
-    return address_info[1][4][0]
-
-def get_http_content(domain, path):
-    connection = http.client.HTTPConnection(domain, 80)
-    connection.request("GET", path)
-    response = connection.getresponse()
-    print(response.status)
-    connection.close()
-    if response.status == 200:
-        return response.read().decode("utf-8")
-    return None
+import requests
 
 def get_youtube_video_title(video_id):
-    youtube_ipv4 = get_ipv4_from_hostname("youtube.com")
-    html_content = get_http_content(youtube_ipv4, "/watch?v=" + video_id)
-    print(html_content)
+    response = requests.get("https://www.youtube.com/watch?v=" + video_id)
+    html_content = response.text
+    if response.status_code != 200:
+        return "unknown"
     title_start = html_content.find("<title>")
     title_end = html_content.find("</title>", title_start)
     return html_content[title_start + 7 : title_end]
