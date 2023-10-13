@@ -39,12 +39,17 @@ def format_sentences(input):
     replace = lambda match: f"{match.group(1)}\n\n{match.group(2).upper()}"
     return re.sub(pattern, replace, capitalized_input)
 
-def get_unique_file_path(dir, filename, extension):
+def get_unique_file_path(file_path):
+    dir = os.path.dirname(file_path)
+    basename_raw = os.path.basename(file_path)
+    basename = os.path.splitext(basename_raw)[0]
+    extension = os.path.splitext(basename_raw)[1]
     duplicate_counter = 1
-    new_file_path = os.path.join(dir, filename + extension)
+    get_file_path = lambda suffix: os.path.join(dir, basename + suffix + extension)
+    new_file_path = get_file_path("")
     while (os.path.exists(new_file_path)):
-        suffix = f" {duplicate_counter}" if duplicate_counter > 1 else ""
-        new_file_path = os.path.join(dir, filename + suffix + extension)
+        suffix = f" ({duplicate_counter})" if duplicate_counter > 1 else ""
+        new_file_path = get_file_path(suffix)
         duplicate_counter += 1
     return new_file_path
 
@@ -73,11 +78,12 @@ def main():
     video_title = get_youtube_video_title(video_id)
     raw_title = re.search(r'(.*) - YouTube$', video_title).group(1)
     escaped_title = get_safe_filename(raw_title)
-    file_name_base = f"({video_id}) {escaped_title}"
-    output_path = os.path.join(output_dir, file_name_base)
-    unique_output_path = get_unique_file_path(output_dir, output_path, ".txt")
+    file_name = f"({video_id}) {escaped_title}"
+    output_path = os.path.join(output_dir, file_name + ".txt")
+    unique_output_path = get_unique_file_path(output_path)
     with open(unique_output_path, 'w') as file:
         file.write(formatted_transcript)
+    print(f"Written transcript to '{unique_output_path}'. ")
 
 if __name__ == "__main__":
     main()
