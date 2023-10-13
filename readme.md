@@ -1,6 +1,5 @@
 # Extract transcript from YouTube videos
 
-* Created by Krank, inspired by PinoPatch use of https://youtubetranscript.com/.
 * Adapted tutorial from Marc Maxmeister, 2022-09-01, https://stackoverflow.com/a/73572089/how-to-add-punctuation-to-text-using-python.
 * Model used to add punctuation: https://huggingface.co/oliverguhr/fullstop-punctuation-multilang-large.
 * Supported languages: English, German, French, Italian
@@ -29,8 +28,13 @@
        "terminal.integrated.defaultProfile.windows": "PowerShell",
      ```
 3. Run `pip install -r requirements.txt`. This might take a while because the punctuation model alone is 2.4 GB.
-4. Run `python main.py stxVBJem3R > output.txt`
+4. Run `python main.py -v stxVBJem3R`
+   * This saves a transcript text file in the folder `output`.
    * `stxVBJem3R` is just an example of a YouTube video id.
+   * When running the script the first time, additional models get downloaded. This might take a few moments.
+5. Run `python main.py -v stxVBJem3R -r > output.txt`
+   * `stxVBJem3R` is just an example of a YouTube video id.
+   * `-r` means raw, so all output is logged directly into console.
    * `> output.txt` is optional, it allows you to pipe the output directly into a text file.
    * When running the script the first time, additional models get downloaded. This might take a few moments.
 
@@ -41,15 +45,17 @@
 ```bash
 $ python main.py "6wkVGQ8swBg"
 [Music].
+
 Thank you everyone for coming today.
+
 This is why care about wholesome games anyway.
+
 Uh, before we get started, I was asked to ask everyone to silence your phones.
+
 Uh, I'm very clumsy so if something goes off, I'll probably be startled and fall off the stage, so please keep that in mind.
+
 Uh, today we're talking about wholesome games.
-It's a genre of games that's grown a lot in the past few years, but maybe isn't the most clearly defined or best understood yet.
-Um, so we're going to be trying to uh shine some light on both of those things today.
-My name is James telman.
-I've been working in games for about eight years.
+
 [...] (truncated to keep things short)
 ```
 
@@ -64,4 +70,4 @@ I've been working in games for about eight years.
 
 ## Credits
 
-Created by Krank (c) 2023 (https://krank.love/).
+* Created by Krank (c) 2023 (https://krank.love/).
