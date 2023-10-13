@@ -43,7 +43,7 @@
 
 
 ```bash
-$ python main.py "6wkVGQ8swBg"
+$ python main.py -v 6wkVGQ8swBg -r
 [Music].
 
 Thank you everyone for coming today.
