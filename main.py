@@ -22,7 +22,6 @@ def get_youtube_video_title(video_id):
     return html_content[title_start + 7 : title_end]
 
 def get_transcript(video_id, languages=['en',], preserve_formatting=True):
-    print(preserve_formatting)
     transcript = YouTubeTranscriptApi.get_transcript(video_id, languages, preserve_formatting)
     #formatter = TextFormatter()
     output = []
@@ -65,7 +64,7 @@ def main():
     if not args.video or args.video == True:
         print("No YouTube video id provided. Please provide one.")
         return
-    video_id = args.video[1:] if args.video.startswith("$") else args.video
+    video_id = args.video[1:] if args.video.startswith("?") else args.video
     if (len(video_id) != 11):
         print(f"Illegal YouTube video id '{video_id}'. Has to be exactly 11 characters. ")
         return
