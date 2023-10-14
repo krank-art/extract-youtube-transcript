@@ -62,12 +62,12 @@ def main():
     if not args.video or args.video == True:
         print("No YouTube video id provided. Please provide one.")
         return
-    if (len(args.video) != 11):
-        print(f"Illegal YouTube video id '{args.video}'. Has to be exactly 11 characters. ")
+    video_id = args.video[1:] if args.video.startswith("$") else args.video
+    if (len(video_id) != 11):
+        print(f"Illegal YouTube video id '{video_id}'. Has to be exactly 11 characters. ")
         return
 
     # Get transcript
-    video_id = args.video
     raw_transcript = get_transcript(video_id)
     punctuated_transcript = add_punctuation(raw_transcript)
     formatted_transcript = format_sentences(punctuated_transcript)
