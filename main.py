@@ -88,7 +88,7 @@ def main():
     file_name = f"({video_id}) {escaped_title}"
     output_path = os.path.join(output_dir, file_name + ".txt")
     unique_output_path = get_unique_file_path(output_path)
-    with open(unique_output_path, 'w') as file:
+    with open(unique_output_path, 'w', encoding='utf-8') as file:
         file.write(formatted_transcript)
     print(f"Written transcript to '{unique_output_path}'. ")
 
