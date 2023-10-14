@@ -21,8 +21,9 @@ def get_youtube_video_title(video_id):
     title_end = html_content.find("</title>", title_start)
     return html_content[title_start + 7 : title_end]
 
-def get_transcript(video_id):
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+def get_transcript(video_id, languages=['en',], preserve_formatting=True):
+    print(preserve_formatting)
+    transcript = YouTubeTranscriptApi.get_transcript(video_id, languages, preserve_formatting)
     #formatter = TextFormatter()
     output = []
     for segment in transcript:
@@ -57,7 +58,9 @@ def main():
     # Process CLI arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--video")
+    parser.add_argument("-l", "--languages")
     parser.add_argument("-r", "--raw", action='store_true')
+    parser.add_argument("-m", "--preserve-markup", action='store_true')
     args = parser.parse_args()
     if not args.video or args.video == True:
         print("No YouTube video id provided. Please provide one.")
@@ -66,9 +69,15 @@ def main():
     if (len(video_id) != 11):
         print(f"Illegal YouTube video id '{video_id}'. Has to be exactly 11 characters. ")
         return
+    default_languages = ['en', 'de', 'fr', 'it']
+    languages = args.languages.split(",") if args.languages else default_languages
+    for language in languages:
+        if (language in default_languages): continue
+        print(f"Language {language} is not supported by the language model (supported languages are '{default_languages}'). ")
+    preserve_markup = False if args.preserve_markup == None else args.preserve_markup
 
     # Get transcript
-    raw_transcript = get_transcript(video_id)
+    raw_transcript = get_transcript(video_id, languages, preserve_markup)
     punctuated_transcript = add_punctuation(raw_transcript)
     formatted_transcript = format_sentences(punctuated_transcript)
 
