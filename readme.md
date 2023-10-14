@@ -11,6 +11,14 @@
 
 ## Example
 
+* Run `python main.py -v stxVBJem3R`
+   * This saves a transcript text file in the folder `output`.
+   * `stxVBJem3R` is just an example of a YouTube video id.
+* Run `python main.py -v stxVBJem3R -r > output.txt`
+   * `stxVBJem3R` is just an example of a YouTube video id.
+   * `-r` means raw, so all output is logged directly into console.
+   * `> output.txt` is optional, it allows you to pipe the output directly into a text file.
+
 ```bash
 $ python main.py -v 6wkVGQ8swBg -r
 [Music].
@@ -53,16 +61,19 @@ Uh, today we're talking about wholesome games.
 
 ## Usage
 
-> **Info:** If a video id starts with a dash `-` or double dashes `--`, it gets interpreted as CLI argument.  
-> You can prefix any video id with a `$` dollar sign to prevent this.  
+* `-v, --video`:  
+  **Required.** 11 digits presenting YouTube video id. 
+  Can be optionally prefixed with an additional `?` to prevent leading dashes getting the video id interpreted as argument.
+* `-l, --languages`:  
+  Optional. Comma-separated list of languages to download languages of, e.g. `en,de`. 
+  Note that the model can only process `en`, `de`, `fr` and `it`, but you can also try applying it to other languages.
+* `-r, --raw`:  
+  Optional, Flag. Print output directly onto the terminal.
+* `-m, --preserve-markup`:  
+  Optional, Flag. Preserve markup like italics and bold in subtitle (untested).
 
-* Run `python main.py -v stxVBJem3R`
-   * This saves a transcript text file in the folder `output`.
-   * `stxVBJem3R` is just an example of a YouTube video id.
-* Run `python main.py -v stxVBJem3R -r > output.txt`
-   * `stxVBJem3R` is just an example of a YouTube video id.
-   * `-r` means raw, so all output is logged directly into console.
-   * `> output.txt` is optional, it allows you to pipe the output directly into a text file.
+> **Info:** If a video id starts with a dash `-` or double dashes `--`, it gets interpreted as CLI argument.  
+> You can prefix any video id with a `?` question mark to prevent this.  
 
 
 ## See also
